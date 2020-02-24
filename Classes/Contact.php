@@ -1,6 +1,6 @@
 <?php
 
-namespace hubspotSA\Classes;
+namespace nlib\Hubspot\Classes;
 
 use nlib\Hubspot\Interfaces\ContactInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
