@@ -8,14 +8,12 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 class Contact extends Hubspot implements ContactInterface, HubspotInterface {
 
     public function getContact(int $id, array $options = []) {
-        $gets = array_merge($options, $this->getHapikeys());
-        $contact = $this->cURL('https://api.hubapi.com/contacts/v1/contact/vid/' . $id . '/profile')->get($gets);
+        $contact = $this->cURL('https://api.hubapi.com/contacts/v1/contact/vid/' . $id . '/profile?' . $this->getHapikey())->get($parameters);
         return json_decode($contact);
     }
 
     public function getContacts(array $options = []) {
-        $gets = array_merge($options, $this->getHapikeys());
-        $contacts = $this->cURL('https://api.hubapi.com/contacts/v1/lists/all/contacts/all')->get($gets);
+        $contacts = $this->cURL('https://api.hubapi.com/contacts/v1/lists/all/contacts/all?' . $this->getHapikey())->get($parameters);
         return json_decode($contacts);
     }
 
