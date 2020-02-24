@@ -7,15 +7,17 @@ interface ContactInterface {
     /**
      *
      * @param integer $id
+     * @param array $parameters
      * @return mixed
      */
-    public function getContact(int $id);
+    public function getContact(int $id, array $parameters = []);
 
     /**
      *
+     * @param array $parameters
      * @return mixed
      */
-    public function getContacts();
+    public function getContacts(array $parameters = []);
 
     /**
      *
