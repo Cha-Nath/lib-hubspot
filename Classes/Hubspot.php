@@ -2,14 +2,16 @@
 
 namespace nlib\Hubspot\Classes;
 
+use nlib\cURL\Interfaces\cURLConstantInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
+
 use nlib\Path\Classes\Path;
 use nlib\cURL\Traits\cURLTrait;
 use nlib\Log\Traits\LogTrait;
 use nlib\Yaml\Traits\ParserTrait;
 use nlib\Tool\Traits\ArrayTrait;
 
-abstract class Hubspot implements HubspotInterface {
+abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
 
     use ParserTrait;
     use cURLTrait;
@@ -19,8 +21,10 @@ abstract class Hubspot implements HubspotInterface {
     private $_hapikeys = [];
 
     public function __construct() {
-        if(array_key_exists('hapikey', $configs = $this->Parser()->get(Path::i()->getConfig() . 'config')))
-        $this->setHapikeys($configs['hapikey']);
+        $config = Path::i()->getConfig() . 'config';
+        if(file_exists($config . '.yaml'))
+            if(array_key_exists('hapikey', $configs = $this->Parser()->get($config)))
+                $this->setHapikeys($configs['hapikey']);
     }
 
     public function getHapikeys() : array {
