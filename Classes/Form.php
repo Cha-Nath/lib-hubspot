@@ -10,6 +10,8 @@ class Form extends Hubspot {
         ->setEncoding(self::_STRING)
         ->setContentType(self::APPLICATION)
         ->post($options);
+
+        $this->log(['\nlib\Hubspot\Classes\Form::post' => $post]);
         
         return json_decode($post);
     }

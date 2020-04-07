@@ -21,10 +21,18 @@ interface ContactInterface {
 
     /**
      *
-     * @param integer $id
+     * @param mixed (string|int) $id
      * @param array $values
      * @return mixed
      */
-    public function update(int $id, array $values);
+    public function update($id, array $values);
+
+    /**
+     * Undocumented function
+     *
+     * @param array $values
+     * @return mixed
+     */
+    public function create(array $values);
 
 }
