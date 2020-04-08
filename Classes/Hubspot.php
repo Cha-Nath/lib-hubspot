@@ -37,7 +37,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
 
     public function getHapikeys() : array {
         if(empty($this->_hapikeys) || !array_key_exists('hapikey', $this->_hapikeys))
-            $this->dlog(['\nlib\Hubspot\Classes\Hubspot::getHapikeys' => 'Var "hapikeys" is not correct.']);
+            $this->dlog([__CLASS__ . '::' . __FUNCTION__ => 'Var "hapikeys" is not correct.']);
         return $this->_hapikeys;
     }
     public function getHapikey() : string { return $this->assoc_to_GET($this->getHapikeys(), 1); }
