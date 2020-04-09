@@ -9,6 +9,12 @@ class Company extends Hubspot implements HubspotInterface, cURLConstantInterface
 
     public function __construct() { $this->_base .= '/companies/v2'; }
     
+    public function getCompany(int $id, array $options = []) {
+        $company = $this->cURL($this->_base . '/companies/' . $id . '?' . $this->getHapikey())
+        ->get($options);
+        return json_decode($company);
+    }
+
     public function update(int $id, array $values) {
         $update = $this->cURL($this->_base . '/companies/' . $id . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)

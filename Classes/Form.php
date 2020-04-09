@@ -11,7 +11,7 @@ class Form extends Hubspot {
         ->setContentType(self::APPLICATION)
         ->post($options);
 
-        $this->log(['\nlib\Hubspot\Classes\Form::post' => $post]);
+        $this->log([__CLASS__ . '::' . __FUNCTION__  => $post]);
         
         return json_decode($post);
     }
