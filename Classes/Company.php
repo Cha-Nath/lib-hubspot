@@ -34,7 +34,7 @@ class Company extends Hubspot implements HubspotInterface, cURLConstantInterface
     public function associate(int $id, array $contactid) {
         $associate = $this->cURL($this->_base . '/companies/' . $id . '/contacts/' . $contactid . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
-        ->put([]);
+        ->put();
         $this->log([__CLASS__ . '::' . __FUNCTION__ => $associate]);
         return json_decode($associate);
     }
