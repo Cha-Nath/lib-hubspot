@@ -15,5 +15,17 @@ class Form extends Hubspot {
         
         return json_decode($post);
     }
+
+    public function post_v3(int $portalID, string $formGUID, array $options = []) {
+        
+        $post = $this->cURL('https://api.hsforms.com/submissions/v3/integration/submit/' . $portalID . '/' . $formGUID)
+        ->setEncoding(self::JSON)
+        ->setContentType(self::APPLICATION_JSON)
+        ->post($options);
+
+        $this->log([__CLASS__ . '::' . __FUNCTION__  => $post]);
+        
+        return json_decode($post);
+    }
     
 }
