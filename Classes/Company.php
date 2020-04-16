@@ -7,7 +7,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 class Company extends Hubspot implements HubspotInterface, cURLConstantInterface {
 
-    public function __construct() { $this->_base .= '/companies/v2'; }
+    public function __construct() { $this->_base .= '/companies/v2'; parent::__construct(); }
     
     public function getCompany(int $id, array $options = []) {
         $company = $this->cURL($this->_base . '/companies/' . $id . '?' . $this->getHapikey())

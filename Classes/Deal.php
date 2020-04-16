@@ -7,7 +7,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 class Deal extends Hubspot implements HubspotInterface, cURLConstantInterface {
 
-    public function __construct() { $this->_base .= '/deals/v1'; }
+    public function __construct() { $this->_base .= '/deals/v1'; parent::__construct(); }
 
     public function getDeal(int $id, array $options = []) {
 

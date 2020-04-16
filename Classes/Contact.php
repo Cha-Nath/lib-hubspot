@@ -8,7 +8,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 class Contact extends Hubspot implements ContactInterface, HubspotInterface, cURLConstantInterface {
 
-    public function __construct() { $this->_base .= '/contacts/v1'; }
+    public function __construct() { $this->_base .= '/contacts/v1'; parent::__construct(); }
 
     public function getContact(int $id, array $options = []) {
         $contact = $this->cURL($this->_base . '/contact/vid/' . $id . '/profile?' . $this->getHapikey())->get($options);

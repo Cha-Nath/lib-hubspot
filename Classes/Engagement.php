@@ -7,7 +7,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 class Engagement  extends Hubspot implements HubspotInterface, cURLConstantInterface {
 
-    public function __construct() { $this->_base .= '/engagements/v1'; }
+    public function __construct() { $this->_base .= '/engagements/v1'; parent::__construct(); }
 
     public function create(array $values) {
 
