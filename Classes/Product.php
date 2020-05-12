@@ -3,10 +3,9 @@
 namespace nlib\Hubspot\Classes;
 
 use nlib\cURL\Interfaces\cURLConstantInterface;
-use nlib\Hubspot\Interfaces\PropertyInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
 
-class Property extends Hubspot implements HubspotInterface, cURLConstantInterface  {
+class Product extends Hubspot implements HubspotInterface, cURLConstantInterface  {
 
     public function __construct() { $this->_base .= '/crm-objects/v1/objects/products'; parent::__construct(); }
 
@@ -20,11 +19,11 @@ class Property extends Hubspot implements HubspotInterface, cURLConstantInterfac
         return json_decode($product);
     }
 
-    public function getProducts() {
+    public function getProducts(array $options = []) {
 
         $products = $this->cURL($this->_base . '/paged?' . $this->getHapikey())
         ->setEncoding(self::JSON)
-        ->get();
+        ->get($options);
 
         return json_decode($products);
     }
@@ -46,9 +45,9 @@ class Property extends Hubspot implements HubspotInterface, cURLConstantInterfac
         $update = $this->cURL($this->_base . '/batch-update?' . $this->getHapikey())
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
-        ->put($values);
+        ->post($values);
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
+        $this->log([__CLASS__ . '::' . __FUNCTION__ => $update], 'batch_');
         
         return \json_decode($update);
     }
@@ -72,9 +71,9 @@ class Property extends Hubspot implements HubspotInterface, cURLConstantInterfac
         ->setContentType(self::APPLICATION_JSON)
         ->post($values);
 
-        var_dump(json_decode($create));
+        // var_dump(json_decode($create));
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
+        $this->log([__CLASS__ . '::' . __FUNCTION__ => $create], 'batch_');
 
         return json_decode($create);
     }
