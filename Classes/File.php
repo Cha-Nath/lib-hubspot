@@ -12,7 +12,7 @@ class File extends Hubspot implements HubspotInterface, cURLConstantInterface {
     public function upload(array $values) {
 
         $upload = $this->cURL('http://api.hubapi.com/filemanager/api/v2/files?' . $this->getHapikey())
-        ->setContentType(self::MULTIPART)
+        ->setContentType(str_replace(';charset=UTF-8;', '', self::MULTIPART))
         ->setEncoding(self::_ARRAY)
         ->post($values);
 
