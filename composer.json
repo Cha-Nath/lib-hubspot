@@ -7,6 +7,7 @@
         "nlib/lib-curl" : "dev-master@dev",
         "nlib/lib-tool" : "dev-master@dev",
         "nlib/lib-path" : "dev-master@dev",
+        "nlib/lib-yaml" : "dev-master@dev",
         "nlib/lib-log" : "dev-master@dev"
     },
     "autoload": {
