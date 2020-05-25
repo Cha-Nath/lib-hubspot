@@ -2,7 +2,10 @@
 
 namespace nlib\Hubspot\Classes;
 
-class Form extends Hubspot {
+use nlib\Hubspot\Interfaces\FormInterface;
+use nlib\Hubspot\Interfaces\HubspotInterface;
+
+class Form extends Hubspot implements HubspotInterface, FormInterface {
 
     public function __construct() { $this->_base .= '/form/v2'; parent::__construct(); }
 
@@ -35,6 +38,7 @@ class Form extends Hubspot {
         $update = $this->Curl($this->_base . '/forms/' . $guid . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setEncoding(self::JSON)
+        ->setDebug(...$this->dd())
         ->put($values);
 
         $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
@@ -47,6 +51,7 @@ class Form extends Hubspot {
         $create = $this->Curl($this->_base . '/forms?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setEncoding(self::JSON)
+        ->setDebug(...$this->dd())
         ->post($values);
 
         $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);

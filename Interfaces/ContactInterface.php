@@ -28,11 +28,18 @@ interface ContactInterface {
     public function update($id, array $values);
 
     /**
-     * Undocumented function
      *
      * @param array $values
      * @return mixed
      */
     public function create(array $values);
+
+    /**
+     *
+     * @param string $email
+     * @param array $values
+     * @return mixed
+     */
+    public function replace(string $email, array $values);
 
 }

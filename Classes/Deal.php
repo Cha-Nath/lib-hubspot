@@ -2,16 +2,17 @@
 
 namespace nlib\Hubspot\Classes;
 
-use nlib\cURL\Interfaces\cURLConstantInterface;
+use nlib\Hubspot\Interfaces\DealInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
 
-class Deal extends Hubspot implements HubspotInterface, cURLConstantInterface {
+class Deal extends Hubspot implements HubspotInterface, DealInterface {
 
     public function __construct() { $this->_base .= '/deals/v1'; parent::__construct(); }
 
     public function getDeal(int $id, array $options = []) {
 
         $deal = $this->cURL($this->_base . '/deal/' . $id . '?' . $this->getHapikey())
+        ->setDebug(...$this->dd())
         ->get($options);
 
         return json_decode($deal);
@@ -21,6 +22,7 @@ class Deal extends Hubspot implements HubspotInterface, cURLConstantInterface {
 
         $update = $this->cURL($this->_base . '/deal/' . $id . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
         ->put($values);
 
         $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
@@ -32,6 +34,7 @@ class Deal extends Hubspot implements HubspotInterface, cURLConstantInterface {
 
         $create = $this->cURL($this->_base . '/deal?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
         ->post($values);
 
         $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
@@ -48,6 +51,7 @@ class Deal extends Hubspot implements HubspotInterface, cURLConstantInterface {
         
         $associate = $this->cURL($this->_base . '/deal/' . $id . '/associations/' . $type . '?id=' . $elementid . '&' . $this->getHapikey())       
         ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
         ->put([]);
 
         $this->log([$log => $associate]);

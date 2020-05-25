@@ -19,7 +19,10 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
     use LogTrait;
 
     private $_hapikeys = [];
+
     protected $_base = 'https://api.hubapi.com';
+    protected $_debug = false;
+    protected $_die = false;
 
     public function __construct() {
         $this->init(Path::i()->getConfig() . 'config');   
@@ -40,14 +43,17 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
             $this->dlog([__CLASS__ . '::' . __FUNCTION__ => 'Var "hapikeys" is not correct.']);
         return $this->_hapikeys;
     }
+    
     public function getHapikey() : string { return $this->assoc_to_GET($this->getHapikeys(), 1); }
     public function getBase() : string { return $this->_base; }
+    public function dd() : array { return [$this->_debug, $this->_die]; }
 
     #endregion
 
     #region Setter
     
     public function setHapikeys(string $hapikey) : self { $this->_hapikeys['hapikey'] = $hapikey; return $this; }
+    public function setDebug(bool $debug = false, bool $die = false) : self { $this->_debug = $debug; $this->_die = $die; return $this; }
     
     #endregion
 
