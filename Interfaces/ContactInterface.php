@@ -6,11 +6,11 @@ interface ContactInterface {
 
     /**
      *
-     * @param integer $id
+     * @param integer|string $id
      * @param array $options
      * @return mixed
      */
-    public function getContact(int $id, array $options = []);
+    public function getContact($id, array $options = []);
 
     /**
      *
