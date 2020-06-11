@@ -52,7 +52,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
 
     #region Setter
     
-    public function setHapikeys(string $hapikey) : self { $this->_hapikeys['hapikey'] = $hapikey; $this->setLogIgnores([$hapikey]); return $this; }
+    public function setHapikeys(string $hapikey) : self { $this->_hapikeys['hapikey'] = $hapikey; return $this; }
     public function setDebug(bool $debug = false, bool $die = false) : self { $this->_debug = $debug; $this->_die = $die; return $this; }
     
     #endregion
