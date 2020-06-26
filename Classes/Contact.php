@@ -10,7 +10,11 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
     public function __construct() { $this->_base .= '/contacts/v1'; parent::__construct(); }
 
     public function getContact($id, array $options = []) {
-        $url = is_numeric($id) ? 'vid/' . (int) $id : 'email/' . $id;
+
+        if(is_numeric($id)) $url = 'vid/' . (int) $id;
+        elseif(filter_var($id, FILTER_VALIDATE_EMAIL)) $url = 'email/' . $id;
+        else $url = 'utk/' . $id;
+
         $contact = $this->cURL($this->_base . '/contact/' . $url . '/profile?' . $this->getHapikey())
         ->setDebug(...$this->dd())
         ->get($options);

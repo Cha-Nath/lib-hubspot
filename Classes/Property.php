@@ -9,9 +9,11 @@ class Property extends Hubspot implements HubspotInterface, PropertyInterface  {
 
     public function __construct() { $this->_base .= '/properties/v1/{object_type}/properties'; parent::__construct(); }
     // /properties/v2/:object_type/properties/named/:property_name
+
     public function update(string $objectype, string $property, array $values) {
 
         $base = str_replace('{object_type}', $objectype, $this->_base);
+        
         $update = $this->cURL($base . '/named/' . $property . '?' . $this->getHapikey())
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
