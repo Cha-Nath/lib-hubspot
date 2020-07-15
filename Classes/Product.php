@@ -7,7 +7,7 @@ use nlib\Hubspot\Interfaces\ProductInterface;
 
 class Product extends Hubspot implements HubspotInterface, ProductInterface {
 
-    public function __construct() { $this->_base .= '/crm-objects/v1/objects/products'; parent::__construct(); }
+    public function __construct(string $instance = 'i') { $this->_base .= '/crm-objects/v1/objects/products'; parent::__construct($instance); }
 
     public function getProduct(int $id, array $options = []) {
 

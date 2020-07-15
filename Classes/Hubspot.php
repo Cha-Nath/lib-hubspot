@@ -7,6 +7,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 use nlib\Path\Classes\Path;
 use nlib\cURL\Traits\cURLTrait;
+use nlib\Instance\Traits\InstanceTrait;
 use nlib\Log\Traits\LogTrait;
 use nlib\Yaml\Traits\ParserTrait;
 use nlib\Tool\Traits\ArrayTrait;
@@ -17,6 +18,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
     use cURLTrait;
     use ArrayTrait;
     use LogTrait;
+    use InstanceTrait;
 
     private $_hapikeys = [];
 
@@ -24,8 +26,8 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
     protected $_debug = false;
     protected $_die = false;
 
-    public function __construct() {
-        $this->init(Path::i()->getConfig() . 'config');   
+    public function __construct(string $instance = 'i') {
+        $this->init(Path::i($instance)->getConfig() . 'config');   
     }
 
     public function init(string $config) : self {

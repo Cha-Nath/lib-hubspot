@@ -7,6 +7,8 @@ use nlib\Hubspot\Interfaces\OwnerInterface;
 
 class Owner extends Hubspot implements HubspotInterface, OwnerInterface {
 
+    public function __construct(string $instance = 'i') { parent::__construct($instance); }
+
     public function getOwner(int $id, array $options = []) {
         $owner = $this->cURL('http://api.hubapi.com/owners/v2/owners/' . $id . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())

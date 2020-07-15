@@ -7,7 +7,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 class Form extends Hubspot implements HubspotInterface, FormInterface {
 
-    public function __construct() { $this->_base .= '/form/v2'; parent::__construct(); }
+    public function __construct(string $instance = 'i') { $this->_base .= '/form/v2'; parent::__construct($instance); }
 
     public function post(int $portalID, string $formGUID, array $options = []) {
 
