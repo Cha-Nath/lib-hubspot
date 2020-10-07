@@ -14,7 +14,7 @@ class Property extends Hubspot implements HubspotInterface, PropertyInterface  {
 
         $base = str_replace('{object_type}', $objectype, $this->_base);
         
-        $update = $this->cURL($base . '/named/' . $property . '?' . $this->getHapikey())
+        $update = $this->cURL($this->getUrl($objectype, $property))
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
@@ -23,5 +23,24 @@ class Property extends Hubspot implements HubspotInterface, PropertyInterface  {
         $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
         
         return \json_decode($update);
+    }
+
+    public function getProperty(string $objectype, string $property) {
+        
+        $property = $this->cURL($this->getUrl($objectype, $property))
+        ->setEncoding(self::JSON)
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->get();
+
+        $this->log([__CLASS__ . '::' . __FUNCTION__ => $property]);
+        
+        return \json_decode($property);
+    }
+
+    public function getUrl(string $objectype, string $property) : string { 
+
+        $base = str_replace('{object_type}', $objectype, $this->_base);
+        return $base . '/named/' . $property . '?' . $this->getHapikey();
     }
 }
