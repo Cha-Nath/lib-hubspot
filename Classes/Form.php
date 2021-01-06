@@ -58,5 +58,31 @@ class Form extends Hubspot implements HubspotInterface, FormInterface {
 
         return json_decode($create);
     }
+
+    public function getForm(string $formid) {
+
+        $form = $this->cURL($this->_base . '/forms/' . $formid . '?' . $this->getHapikey())
+        ->setContentType(self::APPLICATION_JSON)
+        ->setEncoding(self::JSON)
+        ->setDebug(...$this->dd())
+        ->get();
+
+        $this->log([__CLASS__ . '::' . __FUNCTION__ => $form]);
+
+        return json_decode($form);
+    }
+
+    public function getFroms() {
+
+        $forms = $this->cURL($this->_base . '/forms?' . $this->getHapikey())
+        ->setContentType(self::APPLICATION_JSON)
+        ->setEncoding(self::JSON)
+        ->setDebug(...$this->dd())
+        ->get();
+
+        $this->log([__CLASS__ . '::' . __FUNCTION__ => $forms]);
+
+        return json_decode($forms);
+    }
     
 }
