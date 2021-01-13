@@ -11,7 +11,8 @@ class Deal extends Hubspot implements HubspotInterface, DealInterface {
 
     public function getDeal(int $id, array $options = []) {
 
-        $deal = $this->cURL($this->_base . '/deal/' . $id . '?' . $this->getHapikey())
+        $history = $this->getHistory() ? '&includePropertyVersions=true' : '';
+        $deal = $this->cURL($this->_base . '/deal/' . $id . '?' . $this->getHapikey() . $history)
         ->setDebug(...$this->dd())
         ->get($options);
 
