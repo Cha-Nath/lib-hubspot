@@ -4,7 +4,7 @@ namespace nlib\Hubspot\Classes;
 
 use stdClass;
 
-class Associtation extends Hubspot {
+class Association extends Hubspot {
 
     const CONTACT = 15;
     const COMPANY = 26;
