@@ -7,7 +7,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 class File extends Hubspot implements HubspotInterface, FileInterface {
 
-    public function __construct(string $instance = 'i') { $this->_base .= '/filemanager/api/v2'; parent::__construct($instance); }
+    public function __construct() { $this->_base .= '/filemanager/api/v2'; parent::__construct(); }
 
     public function upload(array $values) {
 

@@ -7,7 +7,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 
 class Property extends Hubspot implements HubspotInterface, PropertyInterface  {
 
-    public function __construct(string $instance = 'i') { $this->_base .= '/properties/v1/{object_type}/properties'; parent::__construct($instance); }
+    public function __construct() { $this->_base .= '/properties/v1/{object_type}/properties'; parent::__construct(); }
     // /properties/v2/:object_type/properties/named/:property_name
 
     public function update(string $objectype, string $property, array $values) {

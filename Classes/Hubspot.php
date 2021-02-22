@@ -8,6 +8,7 @@ use nlib\Hubspot\Interfaces\HubspotInterface;
 use nlib\Path\Classes\Path;
 use nlib\cURL\Traits\cURLTrait;
 use nlib\Instance\Traits\InstanceTrait;
+use nlib\Log\Traits\DebugTrait;
 use nlib\Log\Traits\LogTrait;
 use nlib\Yaml\Traits\ParserTrait;
 use nlib\Tool\Traits\ArrayTrait;
@@ -19,16 +20,15 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
     use ArrayTrait;
     use LogTrait;
     use InstanceTrait;
+    use DebugTrait;
 
     private $_hapikeys = [];
 
     protected $_base = 'https://api.hubapi.com';
-    protected $_debug = false;
-    protected $_die = false;
     protected $_history = false;
 
-    public function __construct(string $instance = 'i') {
-        $this->init(Path::i($instance)->getConfig() . 'config');   
+    public function __construct() {
+        $this->init(Path::i($this->_i())->getConfig() . 'config');   
     }
 
     public function init(string $config) : self {
@@ -49,7 +49,6 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
     
     public function getHapikey() : string { return $this->assoc_to_GET($this->getHapikeys(), 1); }
     public function getBase() : string { return $this->_base; }
-    public function dd() : array { return [$this->_debug, $this->_die]; }
     public function getHistory() : bool { return $this->_history; }
 
     #endregion
@@ -57,7 +56,6 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
     #region Setter
     
     public function setHapikeys(string $hapikey) : self { $this->_hapikeys['hapikey'] = $hapikey; return $this; }
-    public function setDebug(bool $debug = false, bool $die = false) : self { $this->_debug = $debug; $this->_die = $die; return $this; }
     public function setHistory(bool $history = false) : self { $this->_history = !empty($history); return $this; }
     
     #endregion
