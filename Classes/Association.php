@@ -4,6 +4,9 @@ namespace nlib\Hubspot\Classes;
 
 use stdClass;
 
+use nlib\Hubspot\Interfaces\AssociationConstanteInterface;
+use nlib\Hubspot\Interfaces\AssociationInterface;
+
 class Association extends Hubspot implements AssociationConstanteInterface, AssociationInterface {
 
     public function __construct() {
