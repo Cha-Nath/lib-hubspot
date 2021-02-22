@@ -4,10 +4,7 @@ namespace nlib\Hubspot\Classes;
 
 use stdClass;
 
-class Association extends Hubspot {
-
-    const CONTACT = 15;
-    const COMPANY = 26;
+class Association extends Hubspot implements AssociationConstanteInterface, AssociationInterface {
 
     public function __construct() {
         $this->_base .= '/crm-associations/v1/associations';
@@ -19,7 +16,8 @@ class Association extends Hubspot {
         $associations = $this->cURL(str_replace(
             ['{objectId}', '{definitionId}'],
             [$objectID, $definitionID],
-            $this->_base . '/{objectId}/HUBSPOT_DEFINED/{definitionId}')
+            $this->_base . '/{objectId}/HUBSPOT_DEFINED/{definitionId}') .
+            '?' . $this->getHapikey()
         )
         ->setDebug(...$this->dd())
         ->setContentType(self::APPLICATION_JSON)
