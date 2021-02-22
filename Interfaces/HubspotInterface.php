@@ -31,22 +31,8 @@ interface HubspotInterface {
 
     /**
      *
-     * @return array
-     */
-    public function dd() : array;
-
-    /**
-     *
      * @param string $hapikey
      * @return self
      */
     public function setHapikeys(string $hapikey);
-
-    /**
-     *
-     * @param boolean $debug
-     * @param boolean $die
-     * @return self
-     */
-    public function setDebug(bool $debug = false, bool $die = false);
 }

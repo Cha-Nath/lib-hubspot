@@ -4,6 +4,7 @@ namespace nlib\Hubspot\Classes;
 
 use nlib\cURL\Interfaces\cURLConstantInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
+use nlib\Log\Interfaces\DebugTraitInterface;
 
 use nlib\Path\Classes\Path;
 use nlib\cURL\Traits\cURLTrait;
@@ -13,7 +14,7 @@ use nlib\Log\Traits\LogTrait;
 use nlib\Yaml\Traits\ParserTrait;
 use nlib\Tool\Traits\ArrayTrait;
 
-abstract class Hubspot implements HubspotInterface, cURLConstantInterface {
+abstract class Hubspot implements HubspotInterface, cURLConstantInterface, DebugTraitInterface {
 
     use ParserTrait;
     use cURLTrait;
