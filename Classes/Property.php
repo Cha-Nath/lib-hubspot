@@ -2,6 +2,7 @@
 
 namespace nlib\Hubspot\Classes;
 
+use stdClass;
 use nlib\Hubspot\Interfaces\PropertyInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
 
@@ -10,37 +11,48 @@ class Property extends Hubspot implements HubspotInterface, PropertyInterface  {
     public function __construct() { $this->_base .= '/properties/v1/{object_type}/properties'; parent::__construct(); }
     // /properties/v2/:object_type/properties/named/:property_name
 
-    public function update(string $objectype, string $property, array $values) {
-
-        $base = str_replace('{object_type}', $objectype, $this->_base);
+    public function getProperty(string $objectType, string $property) : ?stdClass {
         
-        $update = $this->cURL($this->getUrl($objectype, $property))
-        ->setEncoding(self::JSON)
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->put($values);
-
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
-        
-        return \json_decode($update);
-    }
-
-    public function getProperty(string $objectype, string $property) {
-        
-        $property = $this->cURL($this->getUrl($objectype, $property))
+        $property = $this->cURL($this->getEndpoint($objectType, $property))
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
         ->get();
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $property]);
+        $this->log([$this->l() => $property]);
         
         return \json_decode($property);
     }
 
-    public function getUrl(string $objectype, string $property) : string { 
+    public function create(string $objectType, array $values) : ?stdClass {
 
-        $base = str_replace('{object_type}', $objectype, $this->_base);
-        return $base . '/named/' . $property . '?' . $this->getHapikey();
+        $create = $this->cURL($this->getEndpoint($objectType))
+        ->setEncoding(self::JSON)
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->post($values);
+        
+        return json_decode($create);
+    }
+
+    public function update(string $objectType, string $property, array $values) : ?stdClass {
+        
+        $update = $this->cURL($this->getEndpoint($objectType, $property))
+        ->setEncoding(self::JSON)
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->put($values);
+
+        $this->log([$this->l() => $update]);
+        
+        return \json_decode($update);
+    }
+
+    public function getEndpoint(string $objectType, string $property = '') : string { 
+
+        $base = str_replace('{object_type}', $objectType, $this->_base);
+        if(!empty($property)) $base .= '/named/' . $property;
+
+        return $base . '?' . $this->getHapikey();
     }
 }

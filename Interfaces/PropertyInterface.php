@@ -27,6 +27,6 @@ interface PropertyInterface {
      * @param string $property
      * @return string
      */
-    public function getUrl(string $objectype, string $property) : string;
+    public function getEndpoint(string $objectype, string $property) : string;
 
 }
