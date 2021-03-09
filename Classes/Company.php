@@ -4,6 +4,7 @@ namespace nlib\Hubspot\Classes;
 
 use nlib\Hubspot\Interfaces\CompanyInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
+use stdClass;
 
 class Company extends Hubspot implements HubspotInterface, CompanyInterface {
 
@@ -14,6 +15,16 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
         ->setDebug(...$this->dd())
         ->get($options);
         return json_decode($company);
+    }
+
+    public function search(string $domaine, array $options = []) : ?stdClass {
+
+        $companies = $this->cURL($this->_base . '/domains/' . $domaine . '/' . $this->getHapikey())
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->post($options);
+
+        return json_decode($companies);
     }
 
     public function update(int $id, array $values) {
