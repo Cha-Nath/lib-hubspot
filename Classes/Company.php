@@ -2,6 +2,8 @@
 
 namespace nlib\Hubspot\Classes;
 
+use nlib\Hubspot\Entity\Filter;
+use nlib\Hubspot\Entity\Search;
 use nlib\Hubspot\Interfaces\CompanyInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
 use stdClass;
@@ -28,13 +30,13 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
         return json_decode($Companies);
     }
 
-    public function search(string $domain, array $options = []) : ?stdClass {
+    public function search(Search $Search) : ?stdClass {
 
-        $Companies = $this->cURL($this->_base . '/search?' . $this->getHapikey())
+      $Companies = $this->cURL($this->_base . '/search?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setHttpheaders(['accept: application/json'])
         ->setDebug(...$this->dd())
-        ->post(['filterGroups' => [['filters' => [['propertyName' => 'name', 'operator' => 'EQ', 'value' => 'loremipsumcompany']]]]]);
+        ->post($Search->jsonSerialize());
 
         return json_decode($Companies);
     }

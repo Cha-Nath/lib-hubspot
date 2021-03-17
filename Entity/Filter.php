@@ -30,7 +30,7 @@ class Filter extends Entity implements FilterConstanteInterface, JsonSerializabl
 
     #region Method
 
-    public function jsonSerialize() { return $this->__getProperties(get_object_vars($this), true, false); }
+    public function jsonSerialize() { return $this->__getProperties(get_object_vars($this), false, false); }
     public function isValid() : bool {
         $bool = false;
 

@@ -27,7 +27,7 @@ class Sort extends Entity implements SortConstanteInterface, JsonSerializable {
 
     #region Method
 
-    public function jsonSerialize() : array { return $this->__getProperties(get_object_vars($this), true, false); }
+    public function jsonSerialize() : array { return $this->__getProperties(get_object_vars($this), false, false); }
     public function isValid() : bool {
         
         return !empty($this->getPropertyName())
