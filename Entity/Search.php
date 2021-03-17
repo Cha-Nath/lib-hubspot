@@ -9,9 +9,10 @@ use nlib\Tool\Traits\ArrayTrait;
 class Search extends Entity implements JsonSerializable {
 
     use ArrayTrait;
+
     /**
      *
-     * @var 
+     * @var Filter[]
      */
     private $_FilterGroups;
 
@@ -23,9 +24,9 @@ class Search extends Entity implements JsonSerializable {
 
     /**
      *
-     * @var 
+     * @var Sort|null
      */
-    private $_Sort;
+    private $_Sort = null;
 
     /**
      *
@@ -103,11 +104,19 @@ class Search extends Entity implements JsonSerializable {
     #endregion
 
     public function jsonSerialize() {
-        $this->filterGroups = $this->_FilterGroups;
-        unset($this->_FilterGroups);
-        $this->sorts = $this->_Sort;
-        unset($this->_Sort);
+        
+        if(!empty($this->_FilterGroups)) :
+            $this->filterGroups = $this->_FilterGroups;
+            $this->_FilterGroups = [];
+        endif;
+
+        if(!empty($this->_Sort)) :
+            $this->sorts = $this->_Sort;
+            $this->_Sort = null;
+        endif;
+
         $properties = $this->__getProperties(get_object_vars($this), false, false);
+
         return $properties;
     }
 }

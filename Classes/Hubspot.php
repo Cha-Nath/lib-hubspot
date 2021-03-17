@@ -25,6 +25,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
     use DebugTrait;
 
     private $_hapikeys = [];
+    private $_version = 'v2';
 
     protected $_base = 'https://api.hubapi.com';
     protected $_history = false;
@@ -49,11 +50,15 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
 
         if(property_exists($Class, $p = 'properties')) :
             if(property_exists($Class->{$p}, $property)) :
-                if(property_exists($Class->{$p}->{$property}, $v = 'value')) :
-                    $value = $Class->{$p}->{$property}->{$v};
-                else : ('$Class->{$p}->{$property}'); endif;
-            else : ('$Class->{$p}'); endif;
-        else : ('$Class'); endif;
+                if($this->getVersion() == 'v3') :
+                    $value = $Class->{$p}->{$property};
+                else :
+                    if(property_exists($Class->{$p}->{$property}, $v = 'value')) :
+                        $value = $Class->{$p}->{$property}->{$v};
+                    endif;
+                endif;
+            endif;
+        endif;
 
         return $value;
     }
@@ -67,6 +72,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
     public function getHapikey() : string { return $this->assoc_to_GET($this->getHapikeys(), 1); }
     public function getBase() : string { return $this->_base; }
     public function getHistory() : bool { return $this->_history; }
+    public function getVersion() : string { return $this->_version; }
 
     #endregion
 
@@ -74,6 +80,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
     
     public function setHapikeys(string $hapikey) : self { $this->_hapikeys['hapikey'] = $hapikey; return $this; }
     public function setHistory(bool $history = false) : self { $this->_history = !empty($history); return $this; }
+    public function setVersion(string $version) : self { if(in_array($version, ['v1', 'v2', 'v3']))$this->_version = $version; return $this; }
     
     #endregion
 

@@ -2,7 +2,6 @@
 
 namespace nlib\Hubspot\Classes;
 
-use nlib\Hubspot\Entity\Filter;
 use nlib\Hubspot\Entity\Search;
 use nlib\Hubspot\Interfaces\CompanyInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
@@ -10,7 +9,7 @@ use stdClass;
 
 class Company extends Hubspot implements HubspotInterface, CompanyInterface {
 
-    public function __construct() { $this->_base .= '/crm/v3/objects/companies'; parent::__construct(); }
+    public function __construct() { $this->_base .= '/crm/v3/objects/companies'; $this->setVersion('v3'); parent::__construct(); }
     
     public function getCompany(int $id, array $options = []) {
 
