@@ -37,7 +37,7 @@ class Search extends Entity implements JsonSerializable {
      *
      * @var int
      */
-    private $_limit = 10000;
+    private $_limit = 100;
 
     /**
      *
@@ -49,7 +49,7 @@ class Search extends Entity implements JsonSerializable {
      *
      * @var array
      */
-    private $_property = [];
+    private $_properties = [];
 
     #region Getter
 
@@ -69,7 +69,8 @@ class Search extends Entity implements JsonSerializable {
         $Sort = (new Sort)->hydrate($options);
         if($Sort->isValide()) $this->_Sort = $Sort;
         return $this;
-    }
+    }    
+    public function setProperties(array $properties) : self { $this->_properties = $properties; return $this; }
 
     #endregion
 
@@ -94,12 +95,19 @@ class Search extends Entity implements JsonSerializable {
         return $this;
     }
 
-    public function addProperty(string $property) : self {
-        $this->_property[] = $property;
-        return $this;
-    }
+    // public function addProperty(string $property) : self {
+    //     $this->_property[] = $property;
+    //     return $this;
+    // }
 
     #endregion
 
-    public function jsonSerialize() { return $this->__getProperties(get_object_vars($this), true, false); }
+    public function jsonSerialize() {
+        $this->filterGroups = $this->_FilterGroups;
+        unset($this->_FilterGroups);
+        $this->sorts = $this->_Sort;
+        unset($this->_Sort);
+        $properties = $this->__getProperties(get_object_vars($this), false, false);
+        return $properties;
+    }
 }
