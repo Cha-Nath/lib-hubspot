@@ -4,9 +4,10 @@ namespace nlib\Hubspot\Entity;
 
 use JsonSerializable;
 use nlib\Hubspot\Interfaces\SortConstanteInterface;
+use nlib\Hubspot\Interfaces\SortInterface;
 use nlib\Orm\Classes\Entity;
 
-class Sort extends Entity implements SortConstanteInterface, JsonSerializable {
+class Sort extends Entity implements SortInterface, SortConstanteInterface, JsonSerializable {
 
     private $_propertyName = '';
     private $_direction = '';

@@ -4,9 +4,10 @@ namespace nlib\Hubspot\Entity;
 
 use JsonSerializable;
 use nlib\Hubspot\Interfaces\FilterConstanteInterface;
+use nlib\Hubspot\Interfaces\FilterInterface;
 use nlib\Orm\Classes\Entity;
 
-class Filter extends Entity implements FilterConstanteInterface, JsonSerializable {
+class Filter extends Entity implements FilterInterface, FilterConstanteInterface, JsonSerializable {
 
     private $_propertyName = '';
     private $_operator = '';
@@ -30,7 +31,7 @@ class Filter extends Entity implements FilterConstanteInterface, JsonSerializabl
 
     #region Method
 
-    public function jsonSerialize() { return $this->__getProperties(get_object_vars($this), false, false); }
+    public function jsonSerialize() : array { return $this->__getProperties(get_object_vars($this), false, false); }
     public function isValid() : bool {
         $bool = false;
 

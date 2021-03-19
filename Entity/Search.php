@@ -3,10 +3,12 @@
 namespace nlib\Hubspot\Entity;
 
 use JsonSerializable;
+use nlib\Hubspot\Interfaces\SearchInterface;
+use nlib\Hubspot\Interfaces\SortInterface;
 use nlib\Orm\Classes\Entity;
 use nlib\Tool\Traits\ArrayTrait;
 
-class Search extends Entity implements JsonSerializable {
+class Search extends Entity implements SearchInterface, JsonSerializable {
 
     use ArrayTrait;
 
@@ -54,9 +56,9 @@ class Search extends Entity implements JsonSerializable {
 
     #region Getter
 
-    public function getFilterGroups() { return $this->_FilterGroups; }
+    public function getFilterGroups() : array { return $this->_FilterGroups; }
     public function getQuery() : string { return $this->_query; }
-    public function getSort() { return $this->_Sort; }
+    public function getSort() : SortInterface { return $this->_Sort; }
     public function getOffset() : string { return $this->_offset; }
 
     #endregion
@@ -77,7 +79,7 @@ class Search extends Entity implements JsonSerializable {
 
     #region Add
 
-    public function addFilters(array $filters) {
+    public function addFilters(array $filters) : self {
         
         $Filters = [];
         $Filter = null;
@@ -103,7 +105,7 @@ class Search extends Entity implements JsonSerializable {
 
     #endregion
 
-    public function jsonSerialize() {
+    public function jsonSerialize() : array {
         
         if(!empty($this->_FilterGroups)) :
             $this->filterGroups = $this->_FilterGroups;
