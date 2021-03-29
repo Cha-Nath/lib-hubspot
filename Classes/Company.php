@@ -47,7 +47,7 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
         $update = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
-        ->put($values);
+        ->patch($values);
 
         $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
 
