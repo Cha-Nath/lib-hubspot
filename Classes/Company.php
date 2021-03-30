@@ -11,18 +11,24 @@ use nlib\Hubspot\Interfaces\SearchInterface;
 
 class Company extends Hubspot implements HubspotInterface, CompanyInterface {
 
-    public function __construct() { $this->_base .= '/crm/v3/objects/companies'; $this->setVersion('v3'); parent::__construct(); }
+    public function __construct() {
+
+        $this->_base .= '/crm/v3/objects/companies';
+        $this->setVersion('v3');
+
+        parent::__construct();
+    }
     
-    public function getCompany(int $id, array $options = []) : ?stdClass {
+    public function getCompany(int $id, ?OptionInterface $Option = null) : ?stdClass {
 
         $Company = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())
-        ->get($options);
+        ->get(!empty($Option) ? $Option->toURL() : []);
 
         return json_decode($Company);
     }
 
-    public function getCompagnies(OptionInterface $Option) : ?stdClass {
+    public function getCompagnies(?OptionInterface $Option = null) : ?stdClass {
         
         $Companies = $this->cURL($this->_base . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())
@@ -35,7 +41,7 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
 
       $Companies = $this->cURL($this->_base . '/search?' . $this->getHapikey() . '&archived=true')
         ->setContentType(self::APPLICATION_JSON)
-        ->setHttpheaders(['accept: application/json'])
+        ->setHttpheaders([self::APPLICATION_JSON_ACCEPT])
         ->setDebug(...$this->dd())
         ->post($Search->jsonSerialize());
 

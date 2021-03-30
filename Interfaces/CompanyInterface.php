@@ -10,18 +10,18 @@ interface CompanyInterface {
      * Undocumented function
      *
      * @param integer $id
-     * @param array $options
+     * @param OptionInterface|null $Option
      * @return stdClass|null
      */
-    public function getCompany(int $id, array $options = []) : ?stdClass;
+    public function getCompany(int $id, ?OptionInterface $Option = null) : ?stdClass;
 
     /**
      * Undocumented function
      *
-     * @param Option $Option
+     * @param OptionInterface|null $Option
      * @return stdClass|null
      */
-    public function getCompagnies(OptionInterface $Option) : ?stdClass;
+    public function getCompagnies(?OptionInterface $Option = null) : ?stdClass;
 
     /**
      * Undocumented function

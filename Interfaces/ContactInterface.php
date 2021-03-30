@@ -2,22 +2,24 @@
 
 namespace nlib\Hubspot\Interfaces;
 
+use stdClass;
+
 interface ContactInterface {
 
     /**
      *
-     * @param integer|string $id
-     * @param array $options
-     * @return mixed
+     * @param string|integer $id
+     * @param OptionInterface|null $Option
+     * @return stdClass|null
      */
-    public function getContact($id, array $options = []);
+    public function getContact(int $id, ?OptionInterface $Option = null) : ?stdClass;
 
     /**
      *
-     * @param array $options
-     * @return mixed
+     * @param OptionInterface|null $Option
+     * @return stdClass|null
      */
-    public function getContacts(array $options = []);
+    public function getContacts(?OptionInterface $Option = null) : ?stdClass;
 
     /**
      *
