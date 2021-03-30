@@ -8,6 +8,7 @@ use nlib\Hubspot\Interfaces\CompanyInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
 use nlib\Hubspot\Interfaces\OptionInterface;
 use nlib\Hubspot\Interfaces\SearchInterface;
+use nlib\Hubspot\Interfaces\AssociationConstanteInterface;
 
 class Company extends Hubspot implements HubspotInterface, CompanyInterface {
 
@@ -72,16 +73,20 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
     //     return json_decode($create);
     // }
 
-    public function associate(int $id, array $contactid) : ?stdClass {
+    public function associate(int $companyID, string $toObjectType, int $toObjectID, string $associationType) : ?stdClass {
 
-        $associate = $this->cURL($this->_base . '/companies/' . $id . '/contacts/' . $contactid . '?' . $this->getHapikey())
-        ->setContentType(self::APPLICATION_JSON)
+        if(!in_array($toObjectID, AssociationConstanteInterface::OBJECT_TYPES))
+            $this->dlog([$this->l() => 'Parameter "$toObjectID" : "' . $toObjectID . '" doesn\'t contain a valid value.']);
+
+        if(!in_array($associationType, AssociationConstanteInterface::ASSOCIATION_TYPES))
+            $this->dlog([$this->l() => 'Parameter "$associationType" : "' . $associationType . '" doesn\'t contain a valid value.']);
+
+        $Association = $this->cURL($this->_base . '/' . $companyID
+            . '/associations/' . $toObjectType . '/' . $toObjectID . '/' . $associationType . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())
         ->put();
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $associate]);
-
-        return json_decode($associate);
+        return json_decode($Association);
     }
     
 }

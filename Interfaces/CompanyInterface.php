@@ -49,12 +49,13 @@ interface CompanyInterface {
     // public function create(array $values) : ?stdClass;
 
     /**
-     * Undocumented function
      *
-     * @param integer $id
-     * @param array $contactid
+     * @param integer $companyID
+     * @param string $toObjectType
+     * @param integer $toObjectID
+     * @param string $associationType
      * @return stdClass|null
      */
-    public function associate(int $id, array $contactid) : ?stdClass;
+    public function associate(int $companyID, string $toObjectType, int $toObjectID, string $associationType) : ?stdClass;
     
 }
