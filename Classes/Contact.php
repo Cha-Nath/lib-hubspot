@@ -35,35 +35,35 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
         return json_decode($Contacts);
     }
 
-    public function update($id, array $values) {
-        $url = is_numeric($id) ? 'vid/' . (int) $id : 'email/' . $id;
-        $update = $this->cURL($this->_base . '/contact/' . $url . '/profile?' . $this->getHapikey())
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->post($values);
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
-        return json_decode($update);
-    }
+    // public function update($id, array $values) {
+    //     $url = is_numeric($id) ? 'vid/' . (int) $id : 'email/' . $id;
+    //     $update = $this->cURL($this->_base . '/contact/' . $url . '/profile?' . $this->getHapikey())
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->post($values);
+    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
+    //     return json_decode($update);
+    // }
 
-    public function create(array $values) {
+    // public function create(array $values) {
 
-        $create = $this->cURL($this->_base . '?' . $this->getHapikey())
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->post($values);
+    //     $create = $this->cURL($this->_base . '?' . $this->getHapikey())
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->post($values);
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
+    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
 
-        return json_decode($create);
-    }
+    //     return json_decode($create);
+    // }
 
-    public function replace(string $email, array $values) {
-        $replace = $this->cURL($this->_base . '/contact/createOrUpdate/email/' . $email . '/?' . $this->getHapikey())
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->post($values);
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $replace]);
-        return json_decode($replace);
-    }
+    // public function replace(string $email, array $values) {
+    //     $replace = $this->cURL($this->_base . '/contact/createOrUpdate/email/' . $email . '/?' . $this->getHapikey())
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->post($values);
+    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $replace]);
+    //     return json_decode($replace);
+    // }
 
 }

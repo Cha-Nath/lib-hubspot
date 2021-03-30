@@ -27,14 +27,14 @@ interface ContactInterface {
      * @param array $values
      * @return mixed
      */
-    public function update($id, array $values);
+    // public function update($id, array $values);
 
     /**
      *
      * @param array $values
      * @return mixed
      */
-    public function create(array $values);
+    // public function create(array $values);
 
     /**
      *
@@ -42,6 +42,6 @@ interface ContactInterface {
      * @param array $values
      * @return mixed
      */
-    public function replace(string $email, array $values);
+    // public function replace(string $email, array $values);
 
 }
