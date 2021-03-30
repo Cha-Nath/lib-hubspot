@@ -2,6 +2,7 @@
 
 namespace nlib\Hubspot\Classes;
 
+use nlib\Hubspot\Interfaces\AssociationConstanteInterface;
 use stdClass;
 use nlib\Hubspot\Interfaces\ContactInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
@@ -21,7 +22,7 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
 
         $Contact = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())
-        ->get(!empty($Option) ? $Option->toURL() : []);
+        ->get($this->Option($Option)->toUrl());
 
         return json_decode($Contact);
     }
@@ -30,19 +31,9 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
         
         $Contacts = $this->cURL($this->_base . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())
-        ->get(!empty($Option) ? $Option->toURL() : []);
+        ->get($this->Option($Option)->toUrl());
 
         return json_decode($Contacts);
-    }
-
-    public function associate(int $contactID, string $toObjectType, int $toObjectID, string $associationType) : ?stdClass {
-
-        $Association = $this->cURL($this->_base . '/crm/v3/objects/contacts/' . $contactID
-            . '/associations/' . $toObjectType . '/' . $toObjectID . '/' . $associationType . '?' . $this->getHapikey())
-        ->setDebug(...$this->dd())
-        ->put();
-
-        return json_decode($Association);
     }
 
     // public function update($id, array $values) {
@@ -76,4 +67,19 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
     //     return json_decode($replace);
     // }
 
+    public function associate(int $contactID, string $toObjectType, int $toObjectID, string $associationType) : ?stdClass {
+
+        if(!in_array($toObjectID, AssociationConstanteInterface::OBJECT_TYPES))
+            $this->dlog([$this->l() => 'Parameter "$toObjectID" : "' . $toObjectID . '" doesn\'t contain a valid value.']);
+
+        if(!in_array($associationType, AssociationConstanteInterface::ASSOCIATION_TYPES))
+            $this->dlog([$this->l() => 'Parameter "$associationType" : "' . $associationType . '" doesn\'t contain a valid value.']);
+
+        $Association = $this->cURL($this->_base . '/' . $contactID
+            . '/associations/' . $toObjectType . '/' . $toObjectID . '/' . $associationType . '?' . $this->getHapikey())
+        ->setDebug(...$this->dd())
+        ->put();
+
+        return json_decode($Association);
+    }
 }

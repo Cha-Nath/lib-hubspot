@@ -23,7 +23,7 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
 
         $Company = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())
-        ->get(!empty($Option) ? $Option->toURL() : []);
+        ->get($this->Option($Option)->toUrl());
 
         return json_decode($Company);
     }
@@ -32,7 +32,7 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
         
         $Companies = $this->cURL($this->_base . '?' . $this->getHapikey())
         ->setDebug(...$this->dd())
-        ->get(!empty($Option) ? $Option->toURL() : []);
+        ->get($this->Option($Option)->toUrl());
 
         return json_decode($Companies);
     }
@@ -48,29 +48,29 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
         return json_decode($Companies);
     }
 
-    public function update(int $id, array $values) : ?stdClass {
+    // public function update(int $id, array $values) : ?stdClass {
 
-        $update = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->patch($values);
+    //     $update = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->patch($values);
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
+    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
 
-        return json_decode($update);
-    }
+    //     return json_decode($update);
+    // }
     
-    public function create(array $values) : ?stdClass {
+    // public function create(array $values) : ?stdClass {
 
-        $create = $this->cURL($this->_base . '/companies/?' . $this->getHapikey())
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->post($values);
+    //     $create = $this->cURL($this->_base . '/companies/?' . $this->getHapikey())
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->post($values);
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
+    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
 
-        return json_decode($create);
-    }
+    //     return json_decode($create);
+    // }
 
     public function associate(int $id, array $contactid) : ?stdClass {
 

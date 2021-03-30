@@ -8,6 +8,7 @@ use nlib\Log\Interfaces\DebugTraitInterface;
 
 use nlib\Path\Classes\Path;
 use nlib\cURL\Traits\cURLTrait;
+use nlib\Hubspot\Interfaces\OptionInterface;
 use nlib\Instance\Traits\InstanceTrait;
 use nlib\Log\Traits\DebugTrait;
 use nlib\Log\Traits\LogTrait;
@@ -40,7 +41,9 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
                 $this->setHapikeys($configs['hapikey']);
 
         return $this;
-    }
+    }    
+
+    public function Option(?OptionInterface $Option = null) : OptionInterface { return empty($Option) ? new OptionInterface : $Option ;}
 
     #region Getter
 

@@ -123,4 +123,59 @@ interface AssociationConstanteInterface {
      * Ticket to deal 28
      */
     const TICKET_TO_DEAL = 28;
+
+    /**
+     * 
+     */
+    const COMPANY = 'company';
+
+    /**
+     * 
+     */
+    const CONTACT = 'contact';
+
+    /**
+     * 
+     */
+    const DEAL = 'deal';
+
+    /**
+     * 
+     */
+    const TICKET = 'ticket';
+
+    /**
+     * 
+     */
+    const OBJECT_TYPES = [self::COMPANY, self::CONTACT, self::DEAL, self::TICKET];
+
+    /**
+     * 
+     */
+    const ASSOCIATION_TYPES = [
+        self::CONTACT_TO_COMPANY,
+        self::COMPANY_TO_CONTACT,
+        self::DEAL_TO_CONTACT,
+        self::CONTACT_TO_DEAL,
+        self::DEAL_TO_COMPANY,
+        self::COMPANY_TO_DEAL,
+        self::COMPANY_TO_ENGAGEMENT,
+        self::ENGAGEMENT_TO_COMPANY,
+        self::CONTACT_TO_ENGAGEMENT,
+        self::ENGAGEMENT_TO_CONTACT,
+        self::DEAL_TO_ENGAGEMENT,
+        self::ENGAGEMENT_TO_DEAL,
+        self::PARENT_COMPANY_TO_CHILD_COMPANY,
+        self::CHILD_COMPANY_TO_PARENT_COMPANY,
+        self::CONTACT_TO_TICKET,
+        self::TICKET_TO_CONTACT,
+        self::TICKET_TO_ENGAGEMENT,
+        self::ENGAGEMENT_TO_TICKET,
+        self::DEAL_TO_LINE_ITEM,
+        self::LINE_ITEM_TO_DEAL,
+        self::COMPANY_TO_TICKET,
+        self::TICKET_TO_COMPANY,
+        self::DEAL_TO_TICKET,
+        self::TICKET_TO_DEAL,
+    ];
 }

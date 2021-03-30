@@ -38,7 +38,7 @@ interface CompanyInterface {
      * @param array $values
      * @return stdClass|null
      */
-    public function update(int $id, array $values) : ?stdClass;
+    // public function update(int $id, array $values) : ?stdClass;
     
     /**
      * Undocumented function
@@ -46,7 +46,7 @@ interface CompanyInterface {
      * @param array $values
      * @return stdClass|null
      */
-    public function create(array $values) : ?stdClass;
+    // public function create(array $values) : ?stdClass;
 
     /**
      * Undocumented function

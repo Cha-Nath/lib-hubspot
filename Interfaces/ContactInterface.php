@@ -44,4 +44,14 @@ interface ContactInterface {
      */
     // public function replace(string $email, array $values);
 
+    /**
+     *
+     * @param integer $contactID
+     * @param string $toObjectType
+     * @param integer $toObjectID
+     * @param string $associationType
+     * @return stdClass|null
+     */
+    public function associate(int $contactID, string $toObjectType, int $toObjectID, string $associationType) : ?stdClass;
+
 }
