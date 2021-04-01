@@ -8,6 +8,7 @@ use nlib\Log\Interfaces\DebugTraitInterface;
 
 use nlib\Path\Classes\Path;
 use nlib\cURL\Traits\cURLTrait;
+use nlib\Hubspot\Entity\Option;
 use nlib\Hubspot\Interfaces\OptionInterface;
 use nlib\Instance\Traits\InstanceTrait;
 use nlib\Log\Traits\DebugTrait;
@@ -43,7 +44,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
         return $this;
     }    
 
-    public function Option(?OptionInterface $Option = null) : OptionInterface { return empty($Option) ? new OptionInterface : $Option ;}
+    public function Option(?OptionInterface $Option = null) : OptionInterface { return empty($Option) ? new Option : $Option ;}
 
     #region Getter
 
