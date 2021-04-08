@@ -40,7 +40,7 @@ class Company extends Hubspot implements HubspotInterface, CompanyInterface {
 
     public function search(SearchInterface $Search) : ?stdClass {
 
-      $Companies = $this->cURL($this->_base . '/search?' . $this->getHapikey() . '&archived=true')
+      $Companies = $this->cURL($this->_base . '/search?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setHttpheaders([self::APPLICATION_JSON_ACCEPT])
         ->setDebug(...$this->dd())

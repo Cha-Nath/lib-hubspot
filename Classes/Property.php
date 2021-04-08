@@ -2,57 +2,77 @@
 
 namespace nlib\Hubspot\Classes;
 
+use nlib\Hubspot\Interfaces\AssociationConstanteInterface;
 use stdClass;
 use nlib\Hubspot\Interfaces\PropertyInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
 
-class Property extends Hubspot implements HubspotInterface, PropertyInterface  {
+class Property extends Hubspot implements HubspotInterface {
 
-    public function __construct() { $this->_base .= '/properties/v1/{object_type}/properties'; parent::__construct(); }
-    // /properties/v2/:object_type/properties/named/:property_name
+    public function __construct() { $this->_base .= '/crm/v3/properties'; parent::__construct(); }
 
-    public function getProperty(string $objectType, string $property) : ?stdClass {
-        
-        $property = $this->cURL($this->getEndpoint($objectType, $property))
+    public function getProperties(string $objectType, bool $archived = false) : ?stdClass {
+        // /crm/v3/properties/{objectType}
+
+        if(!in_array($objectType, AssociationConstanteInterface::OBJECT_TYPES))
+            $this->dlog([$this->l() => 'Parameter "$objectType" : "' . $objectType . '" doesn\'t contain a valid value.']);
+
+        $Properties = $this->cURL($this->_base . '/' . $objectType . '?archived=' . $archived . '&' . $this->getHapikey())
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
         ->get();
 
-        $this->log([$this->l() => $property]);
-        
-        return \json_decode($property);
+        $this->log([$this->l() => $Properties]);
+
+        return json_decode($Properties);
     }
 
-    public function create(string $objectType, array $values) : ?stdClass {
+    // public function __construct() { $this->_base .= '/properties/v1/{object_type}/properties'; parent::__construct(); }
+    // /properties/v2/:object_type/properties/named/:property_name
 
-        $create = $this->cURL($this->getEndpoint($objectType))
-        ->setEncoding(self::JSON)
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->post($values);
+    // public function getProperty(string $objectType, string $property) : ?stdClass {
         
-        return json_decode($create);
-    }
+    //     $property = $this->cURL($this->getEndpoint($objectType, $property))
+    //     ->setEncoding(self::JSON)
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->get();
 
-    public function update(string $objectType, string $property, array $values) : ?stdClass {
+    //     $this->log([$this->l() => $property]);
         
-        $update = $this->cURL($this->getEndpoint($objectType, $property))
-        ->setEncoding(self::JSON)
-        ->setContentType(self::APPLICATION_JSON)
-        ->setDebug(...$this->dd())
-        ->put($values);
+    //     return \json_decode($property);
+    // }
 
-        $this->log([$this->l() => $update]);
+    // public function create(string $objectType, array $values) : ?stdClass {
+
+    //     $create = $this->cURL($this->getEndpoint($objectType))
+    //     ->setEncoding(self::JSON)
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->post($values);
         
-        return \json_decode($update);
-    }
+    //     return json_decode($create);
+    // }
 
-    public function getEndpoint(string $objectType, string $property = '') : string { 
+    // public function update(string $objectType, string $property, array $values) : ?stdClass {
+        
+    //     $update = $this->cURL($this->getEndpoint($objectType, $property))
+    //     ->setEncoding(self::JSON)
+    //     ->setContentType(self::APPLICATION_JSON)
+    //     ->setDebug(...$this->dd())
+    //     ->put($values);
 
-        $base = str_replace('{object_type}', $objectType, $this->_base);
-        if(!empty($property)) $base .= '/named/' . $property;
+    //     $this->log([$this->l() => $update]);
+        
+    //     return \json_decode($update);
+    // }
 
-        return $base . '?' . $this->getHapikey();
-    }
+    // public function getEndpoint(string $objectType, string $property = '') : string { 
+
+    //     $base = str_replace('{object_type}', $objectType, $this->_base);
+    //     if(!empty($property)) $base .= '/named/' . $property;
+
+    //     return $base . '?' . $this->getHapikey();
+    // }
 }

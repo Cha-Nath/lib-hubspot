@@ -20,21 +20,28 @@ interface DealInterface {
      * @return stdClass|null
      */
     public function getDeals(?OptionInterface $Option = null) : ?stdClass;
+
+    /**
+     *
+     * @param SearchInterface $Search
+     * @return stdClass|null
+     */
+    public function search(SearchInterface $Search) : ?stdClass;
+    
+    /**
+     *
+     * @param OptionInterface $Option
+     * @return stdClass|null
+     */
+    public function create(OptionInterface $Option) : ?stdClass;
     
     /**
      *
      * @param integer $id
-     * @param array $values
-     * @return mixed
+     * @param OptionInterface $Option
+     * @return stdClass|null
      */
-    // public function update(int $id, array $values);
-    
-    /**
-     *
-     * @param array $values
-     * @return mixed
-     */
-    // public function create(array $values);
+    public function update(int $id, OptionInterface $Option) : ?stdClass;
     
     /**
      *

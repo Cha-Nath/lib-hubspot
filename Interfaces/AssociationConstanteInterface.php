@@ -124,6 +124,21 @@ interface AssociationConstanteInterface {
      */
     const TICKET_TO_DEAL = 28;
 
+    // Advisor to company	33
+    // Company to advisor	34
+    // Board member to company	35
+    // Company to board member	36
+    // Contractor to company	37
+    // Company to contractor	38
+    // Manager to company	39
+    // Company to manager	40
+    // Business owner to company	41
+    // Company to business owner	42
+    // Partner to company	43
+    // Company to partner	44
+    // Reseller to company	45
+    // Company to reseller	46
+
     /**
      * 
      */

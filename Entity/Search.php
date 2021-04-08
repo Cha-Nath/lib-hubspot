@@ -98,10 +98,10 @@ class Search extends Entity implements SearchInterface, JsonSerializable {
         return $this;
     }
 
-    // public function addProperty(string $property) : self {
-    //     $this->_property[] = $property;
-    //     return $this;
-    // }
+    public function addProperty(string $property) : self {
+        $this->_properties[] = $property;
+        return $this;
+    }
 
     #endregion
 

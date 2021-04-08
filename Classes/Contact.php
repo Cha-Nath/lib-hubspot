@@ -2,11 +2,8 @@
 
 namespace nlib\Hubspot\Classes;
 
-use nlib\Hubspot\Interfaces\AssociationConstanteInterface;
 use stdClass;
-use nlib\Hubspot\Interfaces\ContactInterface;
-use nlib\Hubspot\Interfaces\HubspotInterface;
-use nlib\Hubspot\Interfaces\OptionInterface;
+use nlib\Hubspot\Interfaces\{ AssociationConstanteInterface, ContactInterface, HubspotInterface, OptionInterface };
 
 class Contact extends Hubspot implements HubspotInterface, ContactInterface {
 
@@ -46,17 +43,17 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
     //     return json_decode($update);
     // }
 
-    // public function create(array $values) {
+    public function create(array $values) {
 
-    //     $create = $this->cURL($this->_base . '?' . $this->getHapikey())
-    //     ->setContentType(self::APPLICATION_JSON)
-    //     ->setDebug(...$this->dd())
-    //     ->post($values);
+        $create = $this->cURL($this->_base . '?' . $this->getHapikey())
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->post($values);
 
-    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
+        $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
 
-    //     return json_decode($create);
-    // }
+        return json_decode($create);
+    }
 
     // public function replace(string $email, array $values) {
     //     $replace = $this->cURL($this->_base . '/contact/createOrUpdate/email/' . $email . '/?' . $this->getHapikey())
