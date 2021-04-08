@@ -30,18 +30,18 @@ interface DealInterface {
     
     /**
      *
-     * @param OptionInterface $Option
+     * @param ValueInterface $Value
      * @return stdClass|null
      */
-    public function create(OptionInterface $Option) : ?stdClass;
+    public function create(ValueInterface $Value) : ?stdClass;
     
     /**
      *
      * @param integer $id
-     * @param OptionInterface $Option
+     * @param ValueInterface $Value
      * @return stdClass|null
      */
-    public function update(int $id, OptionInterface $Option) : ?stdClass;
+    public function update(int $id, ValueInterface $Value) : ?stdClass;
     
     /**
      *

@@ -3,9 +3,10 @@
 namespace nlib\Hubspot\Entity;
 
 use JsonSerializable;
+use nlib\Hubspot\Interfaces\ValueInterface;
 use nlib\Orm\Classes\Entity;
 
-class Property extends Entity implements PropertyEntityInterface, JsonSerializable {
+class Value extends Entity implements ValueInterface, JsonSerializable {
 
     private $_properties = [];
 

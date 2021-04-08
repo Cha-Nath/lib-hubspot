@@ -7,6 +7,7 @@ use nlib\Hubspot\Interfaces\DealInterface;
 use nlib\Hubspot\Interfaces\HubspotInterface;
 use nlib\Hubspot\Interfaces\OptionInterface;
 use nlib\Hubspot\Interfaces\SearchInterface;
+use nlib\Hubspot\Interfaces\ValueInterface;
 use stdClass;
 
 class Deal extends Hubspot implements HubspotInterface, DealInterface {
@@ -48,28 +49,28 @@ class Deal extends Hubspot implements HubspotInterface, DealInterface {
         return json_decode($Deals);
     }
     
-    public function create(OptionInterface $Option) : ?stdClass {
+    public function create(ValueInterface $Value) : ?stdClass {
 
-        if(empty($Option->getProperties())) $this->dlog([$this->l() => 'Property "properties" cannot be empty.']);
+        if(empty($Value->getProperties())) $this->dlog([$this->l() => 'Property "properties" cannot be empty.']);
 
         $create = $this->cURL($this->_base . '/?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
-        ->post(['properties' => $Option->getProperties()]);
+        ->post(['properties' => $Value->getProperties()]);
 
         $this->log([$this->l() => $create]);
 
         return json_decode($create);
     }
     
-    public function update(int $id, OptionInterface $Option) : ?stdClass {
+    public function update(int $id, ValueInterface $Value) : ?stdClass {
 
-        if(empty($Option->getProperties())) $this->dlog([$this->l() => 'Property "properties" cannot be empty.']);
+        if(empty($Value->getProperties())) $this->dlog([$this->l() => 'Property "properties" cannot be empty.']);
 
         $update = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
-        ->patch(['properties' => $Option->getProperties()]);
+        ->patch(['properties' => $Value->getProperties()]);
 
         $this->log([$this->l() => $update]);
         

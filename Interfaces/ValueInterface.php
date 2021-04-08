@@ -2,7 +2,7 @@
 
 namespace nlib\Hubspot\Interfaces;
 
-interface PropertyEntityInterface {
+interface ValueInterface {
 
     /**
      *
