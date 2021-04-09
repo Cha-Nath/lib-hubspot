@@ -18,7 +18,7 @@ interface SearchInterface {
 
     /**
      *
-     * @return void
+     * @return SortInterface
      */
     public function getSort() : SortInterface;
 
@@ -27,6 +27,18 @@ interface SearchInterface {
      * @return string
      */
     public function getOffset() : string;
+
+    /**
+     *
+     * @return array
+     */
+    public function getProperties() : array;
+
+    /**
+     *
+     * @return integer
+     */
+    public function getAfter() : int;
 
     /**
      *
@@ -65,11 +77,25 @@ interface SearchInterface {
 
     /**
      *
+     * @param integer $after
+     * @return self
+     */
+    public function setAfter(int $after);
+
+    /**
+     *
      * @param array $filters
      * @return self
      */
     public function addFilters(array $filters);
 
+    /**
+     *
+     * @param string $property
+     * @return self
+     */
+    public function addProperty(string $property);
+    
     /**
      *
      * @return array
