@@ -44,35 +44,38 @@ class Property extends Hubspot implements HubspotInterface {
     //     return \json_decode($property);
     // }
 
-    // public function create(string $objectType, array $values) : ?stdClass {
+    public function create(string $objectType, array $values) : ?stdClass {
 
-    //     $create = $this->cURL($this->getEndpoint($objectType))
-    //     ->setEncoding(self::JSON)
-    //     ->setContentType(self::APPLICATION_JSON)
-    //     ->setDebug(...$this->dd())
-    //     ->post($values);
+        $create = $this->cURL($this->getEndpoint($objectType))
+        ->setEncoding(self::JSON)
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->post($values);
+
+        $this->log([$this->l() => $create]);
         
-    //     return json_decode($create);
-    // }
+        return json_decode($create);
+    }
 
-    // public function update(string $objectType, string $property, array $values) : ?stdClass {
+    public function update(string $objectType, string $property, array $values) : ?stdClass {
         
-    //     $update = $this->cURL($this->getEndpoint($objectType, $property))
-    //     ->setEncoding(self::JSON)
-    //     ->setContentType(self::APPLICATION_JSON)
-    //     ->setDebug(...$this->dd())
-    //     ->put($values);
+        $update = $this->cURL($this->getEndpoint($objectType, $property))
+        ->setEncoding(self::JSON)
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->put($values);
 
-    //     $this->log([$this->l() => $update]);
+        $this->log([$this->l() => $update]);
         
-    //     return \json_decode($update);
-    // }
+        return \json_decode($update);
+    }
 
-    // public function getEndpoint(string $objectType, string $property = '') : string { 
+    public function getEndpoint(string $objectType, string $property = '') : string { 
 
-    //     $base = str_replace('{object_type}', $objectType, $this->_base);
-    //     if(!empty($property)) $base .= '/named/' . $property;
+        $base = str_replace('/crm/v3/properties', '/properties/v1/{object_type}/properties', $this->_base);
+        $base = str_replace('{object_type}', $objectType, $base);
+        if(!empty($property)) $base .= '/named/' . $property;
 
-    //     return $base . '?' . $this->getHapikey();
-    // }
+        return $base . '?' . $this->getHapikey();
+    }
 }
