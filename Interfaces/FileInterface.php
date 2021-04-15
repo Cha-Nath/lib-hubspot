@@ -2,13 +2,15 @@
 
 namespace nlib\Hubspot\Interfaces;
 
+use stdClass;
+
 interface FileInterface {
 
     /**
      *
-     * @param array $values
-     * @return mixed
+     * @param FileEntityInterface $File
+     * @return stdClass|null
      */
-    public function upload(array $values);
+    public function upload(FileEntityInterface $File) : ?stdClass;
     
 }
