@@ -17,9 +17,9 @@ interface PropertyGroupInterface {
     /**
      *
      * @param string $objectType
-     * @return stdClass|null
+     * @return ?
      */
-    public function getGroups(string $objectType) : ?stdClass;
+    public function getGroups(string $objectType);
 
     /**
      *

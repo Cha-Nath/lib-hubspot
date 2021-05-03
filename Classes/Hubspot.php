@@ -48,11 +48,11 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
 
     #region Getter
 
-    public function get(stdClass $Class, string $property) {
+    public function get(?stdClass $Class, string $property) {
 
         $value = null;
 
-        if(property_exists($Class, $p = 'properties')) :
+        if(!empty($Class) && property_exists($Class, $p = 'properties')) :
             if(property_exists($Class->{$p}, $property)) :
                 // if($this->getVersion() == 'v3') :
                 if(! $Class->{$p}->{$property} instanceof stdClass) :

@@ -23,7 +23,7 @@ class PropertyGroup extends Hubspot implements HubspotInterface, PropertyGroupIn
         return \json_decode($group);
     }
 
-    public function getGroups(string $objectType) : ?stdClass {
+    public function getGroups(string $objectType) {
         
         $group = $this->cURL($this->getEndpoint($objectType))
         ->setEncoding(self::JSON)

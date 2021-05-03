@@ -30,4 +30,22 @@ class Association extends Hubspot implements AssociationConstanteInterface, Asso
 
         return json_decode($associations);
     }
+
+    public function create(string $fromObjectType, string $toObjectType, array $parameters) : ?stdClass {
+
+        $url = str_replace('/crm-associations/v1/associations', '/crm/v3/associations/{fromObjectType}/{toObjectType}/batch/create', $this->_base);
+
+        $create = $this->cURL(str_replace(
+            ['{fromObjectType}', '{toObjectType}'],
+            [$fromObjectType, $toObjectType],
+            $url . '?' . $this->getHapikey()
+        ))
+        ->setDebug(...$this->dd())
+        ->setContentType(self::APPLICATION_JSON)
+        ->post($parameters);
+
+        $this->log([$this->l() => $create]);
+
+        return json_decode($create);
+    }
 }
