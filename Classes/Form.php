@@ -32,7 +32,11 @@ class Form extends Hubspot implements HubspotInterface, FormInterface {
         if( !empty($Obj = json_decode($post))
             && property_exists($Obj, $s = 'status')
             && $Obj->{$s} == 'error'
-        ) $this->log([$log => $post], 'error_');
+        ) : 
+            $this->log([$log => $options], 'error_');
+            $this->log([$log => $post], 'error_');
+            $this->endlog('error_');
+        endif;
 
         return $Obj;
     }
