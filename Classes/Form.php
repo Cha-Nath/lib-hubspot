@@ -28,9 +28,13 @@ class Form extends Hubspot implements HubspotInterface, FormInterface {
         ->setContentType(self::APPLICATION_JSON)
         ->post($options);
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__  => $post]);
-        
-        return json_decode($post);
+        $this->log([$log = __CLASS__ . '::' . __FUNCTION__  => $post]);
+        if( !empty($Obj = json_decode($post))
+            && property_exists($Obj, $s = 'status')
+            && $Obj->{$s} == 'error'
+        ) $this->log([$log => $post], 'error_');
+
+        return $Obj;
     }
 
     public function update(string $guid, array $values) {
