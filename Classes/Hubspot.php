@@ -10,12 +10,12 @@ use nlib\Path\Classes\Path;
 use nlib\cURL\Traits\cURLTrait;
 use nlib\Hubspot\Entity\Option;
 use nlib\Hubspot\Interfaces\OptionInterface;
+use nlib\Hubspot\Traits\PropertyTrait;
 use nlib\Instance\Traits\InstanceTrait;
 use nlib\Log\Traits\DebugTrait;
 use nlib\Log\Traits\LogTrait;
 use nlib\Yaml\Traits\ParserTrait;
 use nlib\Tool\Traits\ArrayTrait;
-use stdClass;
 
 abstract class Hubspot implements HubspotInterface, cURLConstantInterface, DebugTraitInterface {
 
@@ -25,6 +25,7 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
     use LogTrait;
     use InstanceTrait;
     use DebugTrait;
+    use PropertyTrait;
 
     private $_hapikeys = [];
     private $_version = 'v2';
@@ -47,26 +48,6 @@ abstract class Hubspot implements HubspotInterface, cURLConstantInterface, Debug
     public function Option(?OptionInterface $Option = null) : OptionInterface { return empty($Option) ? new Option : $Option ;}
 
     #region Getter
-
-    public function get(?stdClass $Class, string $property) {
-
-        $value = null;
-
-        if(!empty($Class) && property_exists($Class, $p = 'properties')) :
-            if(property_exists($Class->{$p}, $property)) :
-                // if($this->getVersion() == 'v3') :
-                if(! $Class->{$p}->{$property} instanceof stdClass) :
-                    $value = $Class->{$p}->{$property};
-                else :
-                    if(property_exists($Class->{$p}->{$property}, $v = 'value')) :
-                        $value = $Class->{$p}->{$property}->{$v};
-                    endif;
-                endif;
-            endif;
-        endif;
-
-        return $value;
-    }
 
     public function getHapikeys() : array {
         if(empty($this->_hapikeys) || !array_key_exists('hapikey', $this->_hapikeys))
