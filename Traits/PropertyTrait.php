@@ -25,4 +25,14 @@ trait PropertyTrait {
 
         return $value;
     }
+
+    public function toQuery(array $properties) : string {
+
+        $query = '';
+
+        foreach($properties as $key) $query .= 'property=' . $key . '&';
+        if(substr($query, -1) == '&') $query = substr($query, 0, -1);
+
+        return $query;
+    }
 }

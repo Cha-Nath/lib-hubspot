@@ -44,9 +44,9 @@ class Search extends Entity implements SearchInterface, JsonSerializable {
 
     /**
      *
-     * @var string
+     * @var int
      */
-    private $_after = '';
+    private $_after = 0;
 
     /**
      *
@@ -60,6 +60,8 @@ class Search extends Entity implements SearchInterface, JsonSerializable {
     public function getQuery() : string { return $this->_query; }
     public function getSort() : SortInterface { return $this->_Sort; }
     public function getOffset() : string { return $this->_offset; }
+    public function getProperties() : array { return $this->_properties; }
+    public function getAfter() : int { return $this->_after; }
 
     #endregion
 
@@ -74,6 +76,7 @@ class Search extends Entity implements SearchInterface, JsonSerializable {
         return $this;
     }    
     public function setProperties(array $properties) : self { $this->_properties = $properties; return $this; }
+    public function setAfter(int $after) : self { $this->_after = $after; return $this; }
 
     #endregion
 
@@ -98,10 +101,10 @@ class Search extends Entity implements SearchInterface, JsonSerializable {
         return $this;
     }
 
-    // public function addProperty(string $property) : self {
-    //     $this->_property[] = $property;
-    //     return $this;
-    // }
+    public function addProperty(string $property) : self {
+        $this->_properties[] = $property;
+        return $this;
+    }
 
     #endregion
 
