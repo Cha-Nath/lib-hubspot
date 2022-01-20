@@ -44,4 +44,11 @@ interface ContactInterface {
      */
     public function replace(string $email, array $values) : ?stdClass;
 
+    /**
+     *
+     * @param SearchInterface $Search
+     * @return stdClass|null
+     */
+    public function search(SearchInterface $Search) : ?stdClass;
+
 }
