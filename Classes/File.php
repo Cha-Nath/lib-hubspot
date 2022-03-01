@@ -13,6 +13,8 @@ class File extends Hubspot implements HubspotInterface, FileInterface {
 
     public function upload(FileEntityInterface $File) : ?stdClass {
 
+        $Response = null;
+
         $upload = $this->cURL($this->_base . '/import-from-url/async?' . $this->getHapikey())
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
@@ -21,7 +23,30 @@ class File extends Hubspot implements HubspotInterface, FileInterface {
 
         $this->log([$this->l() => $upload]);
         
-        return json_decode($upload);
+        $Obj = json_decode($upload);
+
+        if( !empty($Obj)
+            && property_exists($Obj, $l = 'links')
+            
+            && !empty($Obj->{$l})
+            && property_exists($Obj->{$l}, $s = 'status')
+
+            && !empty($link = $Obj->{$l}->{$s})
+        ) :
+            $status = $this->cURL($link . '?' . $this->getHapikey())
+            ->setEncoding(self::JSON)
+            ->setContentType(self::APPLICATION_JSON)
+            ->setDebug(...$this->dd())
+            ->get();
+
+            $this->log([$this->l() => $status]);
+
+            $Response = json_decode($status);
+        else :
+            $this->log([$this->l() => json_encode(['status' => 'error', 'message' => 'The status of the upload request is not found', 'object' => $Obj])]);
+        endif;
+
+        return $Response;
 
         // $post_url = "/import-from-url/async?hapikey=$hapikey";
 
