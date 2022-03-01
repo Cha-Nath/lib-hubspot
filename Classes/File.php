@@ -13,8 +13,6 @@ class File extends Hubspot implements HubspotInterface, FileInterface {
 
     public function upload(FileEntityInterface $File) : ?stdClass {
 
-        $Response = null;
-
         $upload = $this->cURL($this->_base . '/import-from-url/async?' . $this->getHapikey())
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
@@ -22,31 +20,77 @@ class File extends Hubspot implements HubspotInterface, FileInterface {
         ->post($File->jsonSerialize());
 
         $this->log([$this->l() => $upload]);
-        
-        $Obj = json_decode($upload);
 
-        if( !empty($Obj)
-            && property_exists($Obj, $l = 'links')
-            
-            && !empty($Obj->{$l})
-            && property_exists($Obj->{$l}, $s = 'status')
+        return $this->is(json_decode($upload));
 
-            && !empty($link = $Obj->{$l}->{$s})
-        ) :
-            $status = $this->cURL($link . '?' . $this->getHapikey())
-            ->setEncoding(self::JSON)
-            ->setContentType(self::APPLICATION_JSON)
-            ->setDebug(...$this->dd())
-            ->get();
+    }
 
-            $this->log([$this->l() => $status]);
+    public function is(?stdClass $Obj) : ?stdClass {
 
-            $Response = json_decode($status);
-        else :
-            $this->log([$this->l() => json_encode(['status' => 'error', 'message' => 'The status of the upload request is not found', 'object' => $Obj])]);
+        $Response = null;
+
+        if(!empty($Obj)) :
+
+            $s = 'status';
+                
+            if( property_exists($Obj, $l = 'links')
+                
+                && !empty($Obj->{$l})
+                && property_exists($Obj->{$l}, $s)
+
+                && !empty($link = $Obj->{$l}->{$s})
+            ) :
+                $Response = $this->is($this->getStatus($link));
+                
+            else :
+                if(property_exists($Obj, $s) && $Obj->{$s} == FileInterface::PENDING) :
+                    $this->log([$this->l() => json_encode(['status' => 'error', 'message' => 'The status of the upload request is not found', 'object' => $Obj])]);
+                else :
+                    $Response = $Obj;
+                endif;
+            endif;
+
         endif;
 
         return $Response;
+    }
+
+    public function getStatus(string $string, bool $isLink = true) : ?stdClass {
+
+        $link = $isLink ? $string : $this->_base . '/import-from-url/async' .'/async/tasks/' . $string . '/status';
+        $status = $this->cURL($link . '?' . $this->getHapikey())
+        ->setEncoding(self::JSON)
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->get();
+
+        $this->log([$this->l() => $status]);
+
+        return json_decode($status);
+    }
+    
+}
+
+
+// if(property_exists($Obj, $s = 'status')) :
+
+//     if(method_exists($this, $fn = $Obj->{$s})) : $Response = $this->{$fn}($Obj); endif;
+// else :
+    
+//     if( property_exists($Obj, $l = 'links')
+        
+//         && !empty($Obj->{$l})
+//         && property_exists($Obj->{$l}, $s)
+
+//         && !empty($link = $Obj->{$l}->{$s})
+//     ) :
+//         $Response = $this->getStatus($link);
+//     else :
+//         $this->log([$this->l() => json_encode(['status' => 'error', 'message' => 'The status of the upload request is not found', 'object' => $Obj])]);
+//     endif;
+
+// endif;
+
 
         // $post_url = "/import-from-url/async?hapikey=$hapikey";
 
@@ -97,6 +141,3 @@ class File extends Hubspot implements HubspotInterface, FileInterface {
         // curl_close($curl);
 
         // var_dump(json_decode($response), $error);
-    }
-    
-}
