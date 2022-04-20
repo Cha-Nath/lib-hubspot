@@ -31,24 +31,31 @@ class File extends Hubspot implements HubspotInterface, FileInterface {
 
         if(!empty($Obj)) :
 
-            $s = 'status';
+            if(property_exists($Obj, $id = 'id')) :
+                $Response = $this->is($this->getStatus($Obj->{$id}, false));
+            else : 
+                $s = 'status';
                 
-            if( property_exists($Obj, $l = 'links')
-                
-                && !empty($Obj->{$l})
-                && property_exists($Obj->{$l}, $s)
+                if( property_exists($Obj, $l = 'links')
+                    
+                    && !empty($Obj->{$l})
+                    && property_exists($Obj->{$l}, $s)
 
-                && !empty($link = $Obj->{$l}->{$s})
-            ) :
-                $Response = $this->is($this->getStatus($link));
-                
-            else :
-                if(property_exists($Obj, $s) && $Obj->{$s} == FileInterface::PENDING) :
-                    $this->log([$this->l() => json_encode(['status' => 'error', 'message' => 'The status of the upload request is not found', 'object' => $Obj])]);
+                    && !empty($link = $Obj->{$l}->{$s})
+                ) :
+                    $Response = $this->is($this->getStatus($link));
+                    
                 else :
-                    $Response = $Obj;
+                    if(property_exists($Obj, $s) && $Obj->{$s} == FileInterface::PENDING) :
+                        $this->log([$this->l() => json_encode(['status' => 'error', 'message' => 'The status of the upload request is not found', 'object' => $Obj])]);
+                    else :
+                        $Response = $Obj;
+                    endif;
                 endif;
             endif;
+            
+
+            
 
         endif;
 
@@ -57,7 +64,7 @@ class File extends Hubspot implements HubspotInterface, FileInterface {
 
     public function getStatus(string $string, bool $isLink = true) : ?stdClass {
 
-        $link = $isLink ? $string : $this->_base . '/import-from-url/async' .'/async/tasks/' . $string . '/status';
+        $link = $isLink ? $string : $this->_base . '/import-from-url/async/tasks/' . $string . '/status';
         $status = $this->cURL($link . '?' . $this->getHapikey())
         ->setEncoding(self::JSON)
         ->setContentType(self::APPLICATION_JSON)
