@@ -10,8 +10,8 @@ trait PropertyTrait {
 
         $value = null;
 
-        if(!empty($Class) && property_exists($Class, $p = 'properties')) :
-            if(property_exists($Class->{$p}, $property)) :
+        if(!empty($Class)) :
+            if(property_exists($Class, $p = 'properties') && property_exists($Class->{$p}, $property)) :
                 // if($this->getVersion() == 'v3') :
                 if(! $Class->{$p}->{$property} instanceof stdClass) :
                     $value = $Class->{$p}->{$property};
@@ -20,6 +20,8 @@ trait PropertyTrait {
                         $value = $Class->{$p}->{$property}->{$v};
                     endif;
                 endif;
+            else :
+                if(property_exists($Class, $property)) $value = $Class->{$property};
             endif;
         endif;
 
