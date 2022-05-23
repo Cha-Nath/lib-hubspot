@@ -39,21 +39,40 @@ class Option extends Entity implements OptionInterface, OptionConstanceInterface
      */
     private $_idProperty = '';
 
+    /**
+     * The paging cursor token of the last successfully read resource will be returned as the paging.next.after JSON property of a paged response containing more results.
+     *
+     * @var string
+     */
+    private $_after = '';
+
+    /**
+     * The maximum number of results to display per page.   
+     *
+     * @var integer
+     * @default 10
+     */
+    private $_limit = 10;
+
     #region Getter
     
     public function getProperties() : array { return $this->_properties; }
     public function getArchived() : bool { return $this->_archived; }
     public function getAssociations() : array { return $this->_associations; }
     public function getIDProperty() : string { return $this->_idProperty; }
-
+    public function getAfter() : string { return $this->_after; }
+    public function getLimit() : int { return $this->_limit; }
+    
     #endregion
-
+    
     #region Setter
     
     public function setArchived(bool $archived) : self { $this->_archived = $archived; return $this; }
     public function setIDProperty(string $idproperty) : self { $this->_idProperty = $idproperty; return $this; }
     public function setProperties(array $properties) : self { $this->_properties = $properties; return $this; }
     public function setAssociations(array $associations) : self { $this->_associations = $associations; return $this; }
+    public function setAfter(string $after) : self { $this->_after = $after; return $this; }
+    public function setLimit(int $limit) : self { if($limit > 100) $limit = 100; $this->_limit = $limit; return $this; }
 
     #endregion
 

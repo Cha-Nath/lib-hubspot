@@ -2,6 +2,7 @@
 
 namespace nlib\Hubspot\Classes;
 
+use nlib\Hubspot\Entity\Option;
 use stdClass;
 use nlib\Hubspot\Interfaces\{ AssociationConstanteInterface, ContactInterface, HubspotInterface, OptionInterface };
 
@@ -31,6 +32,36 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
         ->get($this->Option($Option)->toUrl());
 
         return json_decode($Contacts);
+    }
+
+    public function getAllContacts(?OptionInterface $Option = null) : ?stdClass {
+
+        $Afters = null;
+
+        if( !empty($Contacts = $this->getContacts($Option))
+            && property_exists($Contacts, $p = 'paging')
+            && !empty($Contacts->{$p})
+
+            && property_exists($Contacts->{$p}, $n = 'next')
+            && !empty($Contacts->{$p}->{$n})
+
+            && property_exists($Contacts->{$p}->{$n}, $a = 'after')
+            && !empty($after = $Contacts->{$p}->{$n}->{$a})
+        ) :
+
+            if(empty($Option)) $Option = new Option;
+            $Option->setAfter($after);
+            $Afters = $this->getAllContacts($Option);
+        endif;
+
+        if( !empty($Afters)
+            && property_exists($Afters, $r = 'results')
+            && !empty($Afters->{$r})
+        ) :
+            $Contacts->{$r} = array_merge($Contacts->{$r}, $Afters->{$r});
+        endif; 
+
+        return $Contacts;
     }
 
     // public function update($id, array $values) {

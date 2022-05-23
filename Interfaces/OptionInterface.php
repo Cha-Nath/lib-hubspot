@@ -27,6 +27,18 @@ interface OptionInterface {
      * @return string
      */
     public function getIDProperty() : string;
+
+    /**
+     *
+     * @return string
+     */
+    public function getAfter() : string;
+
+    /**
+     *
+     * @return integer
+     */
+    public function getLimit() : int;
     
     /**
      *
@@ -55,6 +67,20 @@ interface OptionInterface {
      * @return self
      */
     public function setAssociations(array $associations);
+
+    /**
+     *
+     * @param string $after
+     * @return self
+     */
+    public function setAfter(string $after);
+
+    /**
+     *
+     * @param integer $limit
+     * @return self
+     */
+    public function setLimit(int $limit);
 
     /**
      *
