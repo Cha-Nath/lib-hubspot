@@ -69,7 +69,7 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
         $Update = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
-        ->patch(json_encode($Value));
+        ->patch(['properties' => $Value->getProperties()]);
 
         $this->log([$this->l() => $Update]);
 
