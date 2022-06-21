@@ -4,7 +4,7 @@ namespace nlib\Hubspot\Classes;
 
 use nlib\Hubspot\Entity\Option;
 use stdClass;
-use nlib\Hubspot\Interfaces\{ AssociationConstanteInterface, ContactInterface, HubspotInterface, OptionInterface };
+use nlib\Hubspot\Interfaces\{ AssociationConstanteInterface, ContactInterface, HubspotInterface, OptionInterface, ValueInterface};
 
 class Contact extends Hubspot implements HubspotInterface, ContactInterface {
 
@@ -64,26 +64,28 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
         return $Contacts;
     }
 
-    // public function update($id, array $values) {
-    //     $url = is_numeric($id) ? 'vid/' . (int) $id : 'email/' . $id;
-    //     $update = $this->cURL($this->_base . '/contact/' . $url . '/profile?' . $this->getHapikey())
-    //     ->setContentType(self::APPLICATION_JSON)
-    //     ->setDebug(...$this->dd())
-    //     ->post($values);
-    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $update]);
-    //     return json_decode($update);
-    // }
+    public function update(int $id, ValueInterface $Value) : ?stdClass {
+
+        $Update = $this->cURL($this->_base . '/' . $id . '?' . $this->getHapikey())
+        ->setContentType(self::APPLICATION_JSON)
+        ->setDebug(...$this->dd())
+        ->patch(json_encode($Value));
+
+        $this->log([$this->l() => $Update]);
+
+        return json_decode($Update);
+    }
 
     public function create(array $values) {
 
-        $create = $this->cURL($this->_base . '?' . $this->getHapikey())
+        $Create = $this->cURL($this->_base . '?' . $this->getHapikey())
         ->setContentType(self::APPLICATION_JSON)
         ->setDebug(...$this->dd())
         ->post($values);
 
-        $this->log([__CLASS__ . '::' . __FUNCTION__ => $create]);
+        $this->log([$this->l() => $Create]);
 
-        return json_decode($create);
+        return json_decode($Create);
     }
 
     // public function replace(string $email, array $values) {
@@ -91,7 +93,7 @@ class Contact extends Hubspot implements HubspotInterface, ContactInterface {
     //     ->setContentType(self::APPLICATION_JSON)
     //     ->setDebug(...$this->dd())
     //     ->post($values);
-    //     $this->log([__CLASS__ . '::' . __FUNCTION__ => $replace]);
+    //     $this->log([$this->l() => $replace]);
     //     return json_decode($replace);
     // }
 
